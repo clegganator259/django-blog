@@ -1,0 +1,22 @@
+version: '3'
+services:
+  web:
+    build: .
+    env_file:
+      - ./base-settings.env
+      - ./secrets.env
+    ports:
+      - "8000:8000"
+    links:
+      - db
+    volumes:
+      - .:/davidclegg_me
+
+  db:
+    image: mysql:5.7
+    env_file:
+      - ./base-settings.env
+      - ./secrets.env
+    restart: always
+volumes:
+  dbdata:

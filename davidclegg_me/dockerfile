@@ -1,0 +1,5 @@
+FROM django
+ADD . /davidclegg_me
+WORKDIR /davidclegg_me
+run pip install -r requirements.txt
+ENTRYPOINT ["python","./manage.py" ,"runserver","0.0.0.0:8000"]

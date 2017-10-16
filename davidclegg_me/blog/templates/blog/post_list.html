@@ -1,13 +1,13 @@
-<html>
-  <head>
-  </head>
-  <body>
-    hello world
-    {% for post in posts %}
-      <div>
-        <h2>{{ post.title }}</h2>
-        <p>{{ post.text }}</p>
-      </div>
-    {% endfor %}
-  </body>
-</html>
+{% extends 'blog/base.html' %}
+{% load markdown_deux_tags %}
+{% block content %}
+{% for post in posts %}
+  <div class='post'>
+    <h2>{{ post.title }}</h2>
+    <p>
+      {{ post.summary }}
+    </p>
+    <p> {{ post.url  }}
+  </div>
+{% endfor %}
+{% endblock %}

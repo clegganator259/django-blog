@@ -3,6 +3,7 @@ from django.utils import timezone
 import markdown2
 from pyquery import PyQuery as pq
 from django.core.validators import RegexValidator
+from django_extensions.db.fields import AutoSlugField
 import re
 
 valid_title_chars = r'^[a-zA-Z ,!?]+$'
@@ -15,8 +16,7 @@ class Post(models.Model):
     author = models.ForeignKey('auth.User')
     title = models.CharField(
             unique=True,
-            max_length=200,
-            validators=[title_validator]
+            max_length=200
         )
     text = models.TextField()
 
@@ -25,16 +25,11 @@ class Post(models.Model):
     published_date = models.DateTimeField(
             blank=True,
             null=True)
+    slug = AutoSlugField( max_length=50,null=False,unique=True, populate_from=('title','author'))
 
     def publish(self):
         self.published_date = timezone.now()
         self.save()
-    
-    def url(self):
-        title_copy = self.title[:]
-        title_copy = re.sub(r'[^a-zA-Z0-9_ ]',r'',title_copy)
-        return re.sub(r' ',r'_',title_copy).lower()
-        
 
     # Creates a summary of CONST_SUMMARY_LENGTH and no more
     # TODO box filling with words so words aren't broken
@@ -52,4 +47,3 @@ class Post(models.Model):
 
     def __str__(self):
         return self.title
-# Create your models here.

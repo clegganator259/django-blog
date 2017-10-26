@@ -1,5 +1,7 @@
+{% extends 'blog/base.html' %}
 {% block content %}
-<h1> {{ post.title }} </h1>
+<h2> {{ post.title }} </h2>
+<h5><span class="glyphicon glyphicon-time"></span> Post by {{ post.author }}, published: {{ post.published_date }}.</h5>
 <div>
   {{ post.text }}
 </div>
